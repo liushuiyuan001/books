@@ -52,8 +52,6 @@ function tokenzie(str) {
                         type: 'tag',
                         name: chars.join('')
                     })
-                    console.log('str', str)
-                    console.log('chars', chars)
 
                     chars.length = 0
                     str = str.slice(1)
@@ -103,4 +101,51 @@ function tokenzie(str) {
     return tokens
 }
 
-console.log(tokenzie('<p>Vue</p>'))
+
+function parse(str) {
+    const tokens = tokenzie(str)
+    // 创建root根节点
+    const root = {
+        type: 'root',
+        children: []
+    }
+
+    const elementStack = [root]
+
+    while(tokens.length) {
+        // 获取父节点
+        const parent = elementStack[elementStack.length - 1]
+        // console.log(parent)
+        const t = tokens[0]
+        switch(t.type) {
+            case 'tag':
+                const elementNode = {
+                    type: 'Element',
+                    tag: t.name,
+                    children: []
+                }
+                // 将当前节点添加到父节点中
+                parent.children.push(elementNode)
+                // 将当前节点入栈
+                elementStack.push(elementNode)
+                break;
+            case 'text':
+                const textNode = {
+                    type: 'Text',
+                    content: t.content
+                }
+                // 将当前节点添加到父节点中
+                parent.children.push(textNode)
+                break;
+            case 'tagEnd':
+                // 如果结束标签，当前栈出栈
+                elementStack.pop()
+                break;
+        }
+        // tokens出队列
+        tokens.shift()
+    }
+    return root
+}
+
+console.log(JSON.stringify(parse('<div><p>Vue</p><p>Template</p></div>')))
