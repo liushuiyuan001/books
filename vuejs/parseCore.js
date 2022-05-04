@@ -5,7 +5,7 @@ const TextModes = {
     CDATA: 'CDATA'
 }
 
-function parse(str) {
+export function parse(str) {
     // 定义上下文对象
     const context = {
         source: str,
@@ -24,7 +24,6 @@ function parse(str) {
     }
     // 第二个参数为父节点构成的节点栈
     const nodes = parseChildren(context,[])
-    
     return {
         type: 'Root',
         children: nodes
@@ -270,11 +269,11 @@ function parseInterpolation(context) {
     // 返回类型为 Interpolation 的节点，代表插值节点
     return {
         type: 'Interpolation',
-        context: context
+        content: content
     }
 }
 
-function parseText(context, ancestors) {
+function parseText(context) {
     // endIndex 为文本内容的结尾索引，默认将整个模板剩余内容都作为文本内容
     let endIndex = context.source.length
     // 寻找字符 < 的位置索引
@@ -302,4 +301,4 @@ function parseText(context, ancestors) {
     }
 }
 
-console.log(JSON.stringify(parse('<div><p>Vue</p><p>Template</p></div>')))
+// console.log(JSON.stringify(parse('<div><p>Vue</p><p>Template</p></div>')))
