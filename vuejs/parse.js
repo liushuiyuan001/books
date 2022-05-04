@@ -148,4 +148,4 @@ function parse(str) {
     return root
 }
 
-console.log(JSON.stringify(parse('<div><p>Vue</p><p>Template</p></div>')))
+console.log(JSON.stringify(parse('<p>Vue</p>')))
