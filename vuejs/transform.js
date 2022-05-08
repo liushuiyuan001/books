@@ -68,7 +68,7 @@ function traverseNode(ast, context = { }) {
     }
 }
 
-function transform(ast){
+export function transform(ast){
     const context = {
         // 增加 currentNode，用来存储当前正则转换的节点
         currentNode: null,
@@ -97,7 +97,7 @@ function transform(ast){
     }
 
     traverseNode(ast, context)
-    console.log(JSON.stringify(ast))
+    // console.log(JSON.stringify(ast))
 
 }
 
@@ -266,7 +266,7 @@ function createIdentifier(name) {
 
 function createArrayExpression(elements) {
     return {
-        type: 'AyyayExpression',
+        type: 'ArrayExpression',
         elements
     }
 }
